@@ -2,12 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
-    <ApplicationIcon>Binocular.ico</ApplicationIcon>
-    <OutputType>WinExe</OutputType>
     <OptionCompare>Binary</OptionCompare>
     <OptionExplicit>On</OptionExplicit>
     <OptionStrict>On</OptionStrict>
-    <StartupObject>ConformanceTests.MainForm</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,17 +12,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="System.Windows.Forms" />
+    <PackageReference Include="xunit" Version="2.4.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Import Include="Microsoft.VisualBasic" />
-    <Import Include="System" />
-    <Import Include="System.Collections" />
-    <Import Include="System.Collections.Generic" />
-    <Import Include="System.Diagnostics" />
-    <Import Include="System.Drawing" />
-    <Import Include="System.Windows.Forms" />
+    <None Update="Infrastructure\TestGenerator.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TestGenerator.vb</LastGenOutput>
+    </None>
+    <Compile Update="Infrastructure\TestGenerator.vb">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TestGenerator.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -34,7 +34,7 @@
     <EmbeddedResource Include="Tests\Expression\TypeExpressions.xml" />
     <EmbeddedResource Include="Tests\Preprocessor\ExternalChecksum.xml" />
     <EmbeddedResource Include="Tests\Type\Enumerations.xml" />
-    <EmbeddedResource Include="Tests\Attribute.xml" />
+    <EmbeddedResource Include="Tests\Declaration\Attribute.xml" />
     <EmbeddedResource Include="Tests\Expression\AddressOf.xml" />
     <EmbeddedResource Include="Tests\Expression\CallOrIndex.xml" />
     <EmbeddedResource Include="Tests\Expression\Casts.xml" />
@@ -93,7 +93,7 @@
     <EmbeddedResource Include="Tests\Type\Modules.xml" />
     <EmbeddedResource Include="Tests\Type\Structure.xml" />
     <EmbeddedResource Include="Tests\Type\TypeComments.xml" />
-    <EmbeddedResource Include="Tests\TypeName.xml" />
+    <EmbeddedResource Include="Tests\TypeName\TypeName.xml" />
   </ItemGroup>
 
 </Project>
