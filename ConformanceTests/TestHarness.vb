@@ -36,11 +36,21 @@ Public Class Test
     Public Version As LanguageVersion
 
     Public Sub Deserialize(info As IXunitSerializationInfo) Implements IXunitSerializable.Deserialize
+        Scenario = info.GetValue(Of ScenarioType)("Scenario")
+        ErrorsExpected = info.GetValue(Of Boolean)("ErrorsExpected")
         Code = info.GetValue(Of String)("Code")
+        Result = info.GetValue(Of String)("Result")
+        Errors = info.GetValue(Of String)("Errors")
+        Version = info.GetValue(Of LanguageVersion)("Version")
     End Sub
 
     Public Sub Serialize(info As IXunitSerializationInfo) Implements IXunitSerializable.Serialize
-        info.AddValue("Code", Me.Code, GetType(String))
+        info.AddValue("Scenario", Me.Scenario)
+        info.AddValue("ErrorsExpected", Me.ErrorsExpected)
+        info.AddValue("Code", Me.Code)
+        info.AddValue("Result", Me.Result)
+        info.AddValue("Errors", Me.Errors)
+        info.AddValue("Version", Me.Version)
     End Sub
 
     Public Overrides Function ToString() As String
@@ -287,6 +297,10 @@ Public Class TestHarness
 
     Public Function RunTest(ByVal Test As Test) As Boolean
         Dim TestResult As Boolean = False
+
+        If Test.Version = LanguageVersion.None Then
+            Return False
+        End If
 
         If (Test.Version And LanguageVersion.VisualBasic71) <> 0 Then
             TestResult = RunSingleVersionTest(Test, LanguageVersion.VisualBasic71)
